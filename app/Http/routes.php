@@ -43,6 +43,10 @@ Route::get('/tweets', ['middleware' => 'cors', function (Request $request)
         "trim_user"       => true
     ];
 
+    if ($request->input('max_id') != '-1') {
+        $options['max_id'] = $request->input('max_id');
+    }
+
     while (count($tweets) <= $count) {
         $statuses = $connection->get("statuses/user_timeline", $options);
         $tweets = array_merge($tweets, $statuses);
